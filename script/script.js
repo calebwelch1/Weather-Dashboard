@@ -14,11 +14,15 @@
 function toFarenheit(kelvinTemp) {
   return Math.round((kelvinTemp - 273.15) * (9 / 5) + 32);
 }
+cityName = $("<div>").text($("#search").val());
 $("#searchButton").on("click", () => {
+  cityName = $("<div>").text($("#search").val().toUpperCase());
   key = "eb111ad156b7588eaa5045ea38550c75";
   query = $("#search").val();
   url = `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${key}`;
   $.get(url).then((response) => {
+    //append city name
+    $("#cityNameDiv").append(cityName);
     //presentWeather
     presentWeather = $("<div>").text(toFarenheit(+response.main.temp));
     $("#presentDiv").append(presentWeather);
@@ -26,6 +30,7 @@ $("#searchButton").on("click", () => {
     longitude = response.coord.lon;
     latitude = response.coord.lat;
     // $("#presentDiv").append(longitude, latitude);
+
     //append search to search history div
     newHistory = $("<div>").text(query);
     $("#searchHistoryDiv").append(newHistory);
@@ -38,6 +43,29 @@ $("#searchButton").on("click", () => {
         toFarenheit(oneCall.daily[2].temp.day)
       );
       $("#dayAfterThatDiv").append(dayAfterThatWeather);
+      //get weather description
+      weatherDescriptionToday = $("<div>").text(
+        oneCall.daily[0].weather[0].description
+      );
+      weatherDescriptionTomorrow = $("<div>").text(
+        oneCall.daily[1].weather[0].description
+      );
+      weatherDescriptionAfterThat = $("<div>").text(
+        oneCall.daily[2].weather[0].description
+      );
+      //append description to day DIV
+      $("#presentDiv").append(weatherDescriptionToday);
+      $("#tomorrowDiv").append(weatherDescriptionTomorrow);
+      $("#dayAfterThatDiv").append(weatherDescriptionAfterThat);
+      //MAKE ICON FOR WEATHER CONDITIONS/TEMP/WINDSPEED/HUMIDITY
+      // append date
+      dateNow = $("<div>").text(oneCall.current.dt);
+      //convert to human time
+      //append to div
+      $("#dateDiv").append(dateNow);
+      //uv index
+      uvIndex = $("<div>").text(oneCall.current.uvi);
+      //make icon w/ color for uv index
 
       console.log(oneCall);
     });
