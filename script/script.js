@@ -11,14 +11,35 @@
 // THEN I am again presented with current and future conditions for that city
 // WHEN I open the weather dashboard
 // THEN I am presented with the last searched city forecast
-
+function toFarenheit(kelvinTemp) {
+  return Math.round((kelvinTemp - 273.15) * (9 / 5) + 32);
+}
 $("#searchButton").on("click", () => {
   key = "eb111ad156b7588eaa5045ea38550c75";
   query = $("#search").val();
   url = `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${key}`;
   $.get(url).then((response) => {
-    presentWeather = $("<div>").text(response.main.temp);
+    //presentWeather
+    presentWeather = $("<div>").text(toFarenheit(+response.main.temp));
     $("#presentDiv").append(presentWeather);
-    console.log(response);
+    //long/lat for one call
+    longitude = response.coord.lon;
+    latitude = response.coord.lat;
+    // $("#presentDiv").append(longitude, latitude);
+    //append search to search history div
+    newHistory = $("<div>").text(query);
+    $("#searchHistoryDiv").append(newHistory);
+
+    oneCallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${key}`;
+    $.get(oneCallURL).then((oneCall) => {
+      tomorrowWeather = $("<div>").text(toFarenheit(oneCall.daily[1].temp.day));
+      $("#tomorrowDiv").append(tomorrowWeather);
+      dayAfterThatWeather = $("<div>").text(
+        toFarenheit(oneCall.daily[2].temp.day)
+      );
+      $("#dayAfterThatDiv").append(dayAfterThatWeather);
+
+      console.log(oneCall);
+    });
   });
 });
