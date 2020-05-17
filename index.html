@@ -3,26 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Weather Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css"
+    />
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
+    <link 
+    rel="stylesheet"
+    href="assets/style.css"/>
+
   </head>
   <body>
-    <header>Weather Dashboard</header>
-    <nav id="nav"></nav>
-    <div class="container">
-      <div id="cityNameDiv"></div>
-      <div id="dateDiv"></div>
-      <div id="searchDiv">
-        <input type="text" value="" id="search" />
-        <input type="button" id="searchButton" value="search!" />
+    <header>
+      <p class="title bgGray">Weather Dashboard</p></header>
+   
+    <div class="columns ">
+      <div class="container column is-full">
+        <div id="cityNameDiv"></div>
+        <div id="dateDiv"></div>
+        <div id="searchDiv">
+          <input type="text" value="" id="search" />
+          <input type="button" id="searchButton" value="search!" />
+        </div>
       </div>
-      <div id="weatherCard">
-        <div id="presentDiv"></div>
-        <div id="tomorrowDiv"></div>
-        <div id="dayAfterThatDiv"></div>
-        <div id="dayFourDiv"></div>
-        <div id="dayFiveDiv"></div>
       </div>
+      <div class="columns">
+        <div id="weatherCard" class="column">
+          <div id="presentDiv">
+            <div id="tempDiv">Temp:</div>
+            <div id="humidityDiv">Humidity:</div>
+            <div id="windSpeedDiv">Wind Speed:</div>
+            <div id="uviDiv">UV Index:</div>
+          </div>
+        </div>
+      </div>
+      <div class="columns">
+        <div id="tomorrowDiv" class="column bgGreen"></div>
+        <div id="dayAfterThatDiv"class="column "></div>
+        <div id="dayFourDiv"class="column "></div>
+        <div id="dayFiveDiv"class="column "></div>
+      </div>
+      <div class="columns">
       <div id="searchHistoryDiv">Recently Searched:</div>
+    </div>
     </div>
     <script
       src="https://code.jquery.com/jquery-3.5.1.min.js"

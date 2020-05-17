@@ -23,7 +23,7 @@ $(document).ready(() => {
   dateFour = moment().add(3, "days").calendar();
   dateFive = moment().add(4, "days").calendar();
   //append Proper Dates
-  $("#presentDiv").append(dateToday);
+  // $("#presentDiv").append(dateToday);
   $("#tomorrowDiv").append(dateTomorrow);
   $("#dayAfterThatDiv").append(dateThree);
   $("#dayFourDiv").append(dateFour);
@@ -40,8 +40,8 @@ $("#searchButton").on("click", () => {
     $("#cityNameDiv").append(cityName);
 
     //presentWeather
-    presentWeather = $("<div>").text(toFarenheit(+response.main.temp));
-    $("#presentDiv").append(presentWeather);
+    presentWeather = toFarenheit(+response.main.temp);
+    $("#tempDiv").append(presentWeather);
     //long/lat for one call
     longitude = response.coord.lon;
     latitude = response.coord.lat;
@@ -93,8 +93,25 @@ $("#searchButton").on("click", () => {
       //convert to human time
       //append to div
       $("#dateDiv").append(dateNow);
+      //wind speed
+      windspeed1 = oneCall.daily[0].wind_speed;
+      // windspeed2 = $("<div>").text(oneCall.daily[1].wind_speed);
+      // windspeed3 = $("<div>").text(oneCall.daily[2].wind_speed);
+      // windspeed4 = $("<div>").text(oneCall.daily[3].wind_speed);
+      // windspeed5 = $("<div>").text(oneCall.daily[4].wind_speed);
+      //append windspeed
+      $("#windSpeedDiv").append(windspeed1);
+      // $("#tomorrowDiv").append(windspeed2);
+      // $("#dayAfterThatDiv").append(windspeed3);
+      // $("#dayFourDiv").append(windspeed4);
+      // $("#dayFiveDiv").append(windspeed5);
+      //humidity
+      humidityPresent = oneCall.daily[0].humidity;
+      // append humidity
+      $("#humidityDiv").append(humidityPresent);
       //uv index
-      uvIndex = $("<div>").text(oneCall.current.uvi);
+      uvIndex = oneCall.current.uvi;
+      $("#uviDiv").append(uvIndex);
       //make icon w/ color for uv index
 
       console.log(oneCall);
