@@ -14,6 +14,19 @@
 function toFarenheit(kelvinTemp) {
   return Math.round((kelvinTemp - 273.15) * (9 / 5) + 32);
 }
+function clear() {
+  $("#cityNameDiv").html("");
+  $("#dateDiv").html("");
+  $("#tempDiv").html("");
+  $("#windSpeedDiv").html("");
+  $("#uviDiv").html("");
+  $("#humidityDiv").html("");
+  $("#description").html("");
+  // $("#tomorrowDiv").html("");
+  // $("#dayAfterThatDiv").html("");
+  // $("#dayFourDiv").html("");
+  // $("#dayFiveDiv").html("");
+}
 cityName = $("<div>").text($("#search").val());
 $(document).ready(() => {
   //Adding Proper Dates
@@ -31,6 +44,7 @@ $(document).ready(() => {
 });
 
 $("#searchButton").on("click", () => {
+  clear();
   cityName = $("<div>").text($("#search").val().toUpperCase());
   key = "eb111ad156b7588eaa5045ea38550c75";
   query = $("#search").val();
@@ -41,7 +55,7 @@ $("#searchButton").on("click", () => {
 
     //presentWeather
     presentWeather = toFarenheit(+response.main.temp);
-    $("#tempDiv").append(presentWeather);
+    $("#tempDiv").append("Temp:" + presentWeather);
     //long/lat for one call
     longitude = response.coord.lon;
     latitude = response.coord.lat;
@@ -66,9 +80,7 @@ $("#searchButton").on("click", () => {
       $("#dayFiveDiv").append(dayFiveWeather);
 
       //get weather description
-      weatherDescriptionToday = $("<div>").text(
-        oneCall.daily[0].weather[0].description
-      );
+      weatherDescriptionToday = oneCall.daily[0].weather[0].description;
       weatherDescriptionTomorrow = $("<div>").text(
         oneCall.daily[1].weather[0].description
       );
@@ -82,7 +94,7 @@ $("#searchButton").on("click", () => {
         oneCall.daily[4].weather[0].description
       );
       //append description to day DIV
-      $("#presentDiv").append(weatherDescriptionToday);
+      $("#description").append(weatherDescriptionToday);
       $("#tomorrowDiv").append(weatherDescriptionTomorrow);
       $("#dayAfterThatDiv").append(weatherDescriptionAfterThat);
       $("#dayFourDiv").append(weatherDescriptionDayFour);
@@ -100,18 +112,29 @@ $("#searchButton").on("click", () => {
       // windspeed4 = $("<div>").text(oneCall.daily[3].wind_speed);
       // windspeed5 = $("<div>").text(oneCall.daily[4].wind_speed);
       //append windspeed
-      $("#windSpeedDiv").append(windspeed1);
+      $("#windSpeedDiv").append("Wind Speed:" + windspeed1);
       // $("#tomorrowDiv").append(windspeed2);
       // $("#dayAfterThatDiv").append(windspeed3);
       // $("#dayFourDiv").append(windspeed4);
       // $("#dayFiveDiv").append(windspeed5);
       //humidity
       humidityPresent = oneCall.daily[0].humidity;
+
       // append humidity
-      $("#humidityDiv").append(humidityPresent);
+      $("#humidityDiv").append("humidity:" + humidityPresent);
       //uv index
       uvIndex = oneCall.current.uvi;
-      $("#uviDiv").append(uvIndex);
+      function uvColor(uviNow) {
+        if (Math.round(uviNow) >= 6) {
+          $("#uviDiv").addClass("bgRed");
+        } else if (Math.round(uviNow) >= 3 && Math.round(uvIndex) < 6) {
+          $("#uviDiv").addClass("bgOrange");
+        } else {
+          $("#uviDiv").addClass("bgGreen");
+        }
+      }
+      uvColor(uvIndex);
+      $("#uviDiv").append("UV Index:" + uvIndex);
       //make icon w/ color for uv index
 
       console.log(oneCall);
