@@ -62,8 +62,10 @@ $("#searchButton").on("click", () => {
     // $("#presentDiv").append(longitude, latitude);
 
     //append search to search history div
-    newHistory = $("<div>").text(query);
+    newHistory = $("<div>", { class: "history", id: `${query}` }).text(query);
     $("#searchHistoryDiv").append(newHistory);
+    // history on click
+    // $(".history").onclick(()=>{})
 
     oneCallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${key}`;
     $.get(oneCallURL).then((oneCall) => {
@@ -94,11 +96,13 @@ $("#searchButton").on("click", () => {
         oneCall.daily[4].weather[0].description
       );
       //append description to day DIV
-      $("#description").append(weatherDescriptionToday);
-      $("#tomorrowDiv").append(weatherDescriptionTomorrow);
-      $("#dayAfterThatDiv").append(weatherDescriptionAfterThat);
-      $("#dayFourDiv").append(weatherDescriptionDayFour);
-      $("#dayFiveDiv").append(weatherDescriptionDayFive);
+      //ugly compared to template literal or concactinate but when I try either of those it breaks...
+      forecastText = "Forecast:";
+      $("#description").append(forecastText, weatherDescriptionToday);
+      $("#tomorrowDiv").append(forecastText, weatherDescriptionTomorrow);
+      $("#dayAfterThatDiv").append(forecastText, weatherDescriptionAfterThat);
+      $("#dayFourDiv").append(forecastText, weatherDescriptionDayFour);
+      $("#dayFiveDiv").append(forecastText, weatherDescriptionDayFive);
       //MAKE ICON FOR WEATHER CONDITIONS/TEMP/WINDSPEED/HUMIDITY
       // append date
       dateNow = $("<div>").text(moment().format("MMMM Do YYYY, h:mm:ss a"));

@@ -39,3 +39,8 @@ body {
   padding: 0;
   display: block;
 }
+
+.history {
+  background-color: rgb(104, 104, 160);
+  border-radius: 20px;
+}
